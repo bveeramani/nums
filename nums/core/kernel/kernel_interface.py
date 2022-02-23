@@ -160,10 +160,6 @@ class Kernel:
         raise NotImplementedError()
 
 
-class KernelImp:
-    pass
-
-
 class RNGInterface:
     def new_block_rng_params(self):
         raise NotImplementedError()
