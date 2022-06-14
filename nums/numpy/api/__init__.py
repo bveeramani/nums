@@ -14,7 +14,10 @@
 
 # pylint: disable = redefined-builtin, too-many-lines, anomalous-backslash-in-string, unused-wildcard-import, wildcard-import
 
+import functools
 import warnings
+
+import usage
 
 from nums.numpy.api.algebra import *
 from nums.numpy.api.creation import *
@@ -40,6 +43,7 @@ def _not_implemented(func):
 
 # TODO (mwe): Convert this to invoke the NumPy op on a worker instead of the driver.
 def _default_to_numpy(func):
+    @functools.wraps(func)
     def wrapped(*args, **kwargs):
         warnings.warn(
             "Operation "
@@ -60,7 +64,7 @@ def _default_to_numpy(func):
             nps_res = array(res)
         return nps_res
 
-    return wrapped
+    return usage.collect(wrapped, labels=["fallback"])
 
 
 ############################################

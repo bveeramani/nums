@@ -16,13 +16,28 @@
 # pylint: disable = wrong-import-position
 
 # Set numpy to single thread.
+import platform
 import os
 
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 os.environ["MKL_NUM_THREADS"] = "1"
 
+import usage
+import ray
+
 from nums.api import init, read, write, delete, read_csv, from_modin, zarr_group
 from nums.core.version import __version__
+
+
+@usage.metadata
+def get_metadata():
+    return {
+        "version": __version__,
+        "python": platform.python_version(),
+        "ray": ray.__version__,
+        "os": platform.system(),
+    }
+
 
 __all__ = [
     "numpy",
